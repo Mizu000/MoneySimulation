@@ -30,7 +30,7 @@
             android:textStyle="bold" />
 
         <ImageButton
-            android:id="@+id/imgBtnAddCategory"
+            android:id="@+id/btnAddPlayers"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -41,11 +41,35 @@
     </LinearLayout>
 
     <Spinner
-        android:id="@+id/spinnerCategory"
+        android:id="@+id/spinnerPlayers"
         android:layout_width="match_parent"
         android:layout_below="@id/ll_add_player"
         android:layout_height="48dp"
         android:layout_marginBottom="16dp" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/spinnerPlayers"
+        >
+
+
+
+        <Button
+            android:id="@+id/btnSimpleMs"
+            android:layout_width="200dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:text="Start"
+            android:backgroundTint="@color/colorSecondary"
+            />
+
+
+    </LinearLayout>
+
 
 
 
