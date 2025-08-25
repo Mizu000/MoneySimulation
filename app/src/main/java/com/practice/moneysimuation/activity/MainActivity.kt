@@ -27,6 +27,8 @@ class MainActivity : AppCompatActivity() {
 
         menuList = mutableListOf("Simple Money Simulation")
 
+        //recycler
+        rvHomeMenu = findViewById(R.id.rvHomeMenu)
         rvHomeMenu.layoutManager = LinearLayoutManager(this)
         rvHomeMenu.adapter = HomeMenuAdapter(this,menuList)
 
