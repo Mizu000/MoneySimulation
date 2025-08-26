@@ -22,7 +22,8 @@ class SimpleMoneySimulation : AppCompatActivity() {
     lateinit var btnStart: Button
     lateinit var spnPlayers: Spinner
     lateinit var playerList: MutableList<Player>
-    lateinit var playerAdapter: ArrayAdapter<Player>
+    lateinit var playerNameList: MutableList<String>
+    lateinit var playerAdapter: ArrayAdapter<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,16 +35,15 @@ class SimpleMoneySimulation : AppCompatActivity() {
             insets
         }
 
-        playerList = mutableListOf(
-
-        )
+        playerList = mutableListOf()
+        playerNameList = mutableListOf()
 
         imgBtnAddPlayer  =  findViewById(R.id.btnAddPlayers)
         btnStart         =  findViewById(R.id.btnSimpleMs)
         spnPlayers       =  findViewById(R.id.spinnerPlayers)
 
-        //spinner category
-        playerAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, playerList)
+        //spinner player
+        playerAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, playerNameList)
         playerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spnPlayers.adapter = playerAdapter
 
@@ -85,6 +85,7 @@ class SimpleMoneySimulation : AppCompatActivity() {
             val pin = etUpiPin.text.toString()
             if(name.isNotEmpty() && pin.isNotEmpty() && balance.isNotEmpty()){
                 playerList.add(Player(name,balance.toInt(),pin.toInt()))
+                playerNameList.add(name)
                 playerAdapter.notifyDataSetChanged()
                 dialog.dismiss()
             }else{

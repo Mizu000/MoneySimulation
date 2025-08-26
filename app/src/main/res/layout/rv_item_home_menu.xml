@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:layout_margin="5dp"
     android:layout_height="wrap_content">
 
     <TextView
@@ -8,7 +9,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/tvHomeMenuString"
         android:textSize="20sp"
+        android:textColor="@color/white"
+        android:text="start"
         android:padding="20dp"
+        android:background="@color/colorPrimary"
         />
 
 
