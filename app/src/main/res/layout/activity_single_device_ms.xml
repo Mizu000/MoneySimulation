@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -7,4 +8,77 @@
     android:layout_height="match_parent"
     tools:context=".activity.SingleDeviceMS">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvBalanceBanner"
+            android:textSize="32sp"
+            android:text="*****"
+            android:gravity="center"
+            android:layout_marginTop="15dp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvFrom"
+            android:textSize="22sp"
+            android:text="From: "
+            android:gravity="center"
+            android:layout_marginTop="15dp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="To:"
+                android:textSize="22sp"
+                android:gravity="end"
+                />
+
+            <Spinner
+                android:id="@+id/spnToPlayer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                />
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/etEnterAmount"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:inputType="number"
+            android:layout_marginTop="20dp"
+            android:hint="Enter Amount"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            />
+
+        <Button
+            android:id="@+id/btnSendMoney"
+            android:layout_width="200dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:text="Send"
+            android:backgroundTint="@color/colorSecondary"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>

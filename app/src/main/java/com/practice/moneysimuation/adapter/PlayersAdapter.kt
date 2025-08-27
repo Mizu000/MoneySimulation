@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.practice.moneysimuation.R
+import com.practice.moneysimuation.activity.MSBoard
 import com.practice.moneysimuation.activity.SingleDeviceMS
 import com.practice.moneysimuation.companionobject.IntentVariable
 import com.practice.moneysimuation.model.Player
@@ -48,11 +49,30 @@ class PlayersAdapter(val context: Context, val playerList: MutableList<Player>):
         holder.tvView.text = "View Balance"
         //
         holder.btnLogin.setOnClickListener {
-            val gson = Gson()
-            val json = gson.toJson(player)
-            val intent = Intent(context, SingleDeviceMS::class.java)
-            intent.putExtra(IntentVariable.playerIntent,json)
-            context.startActivity(intent)
+
+            val pin = holder.etEnterPin.text.trim()
+            if(pin.isNotEmpty()){
+                if(pin.toString().toInt() == player.upiPin){
+
+
+
+
+                    val gson = Gson()
+                    val json = gson.toJson(player)
+                    val jsonPlayerList = gson.toJson(playerList)
+                    val intent = Intent(context, SingleDeviceMS::class.java)
+                    intent.putExtra(IntentVariable.playerIntent,json)
+                    intent.putExtra(IntentVariable.playerListIntent,jsonPlayerList)
+                    context.startActivity(intent)
+
+                }else{
+                    ToastUtil.showShortToast(context,"Wrong Pin")
+                }
+            }else{
+                ToastUtil.showShortToast(context,"Enter Pin")
+            }
+
+
         }
         //0
         holder.tvView.setOnClickListener {

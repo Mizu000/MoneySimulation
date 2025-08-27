@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:text="Name"
+        android:textSize="26sp"
         android:gravity="center"
         android:layout_margin="15dp"
         />

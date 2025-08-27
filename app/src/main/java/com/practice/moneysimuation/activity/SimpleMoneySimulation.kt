@@ -23,6 +23,7 @@ class SimpleMoneySimulation : AppCompatActivity() {
 
     lateinit var imgBtnAddPlayer: ImageButton
     lateinit var btnStart: Button
+    lateinit var btnContinue: Button
     lateinit var spnPlayers: Spinner
     lateinit var playerList: MutableList<Player>
     lateinit var playerNameList: MutableList<String>
@@ -58,6 +59,11 @@ class SimpleMoneySimulation : AppCompatActivity() {
             openAddPlayerDialog()
         }
 
+        btnContinue.setOnClickListener {
+
+            continueMS()
+        }
+
         btnStart.setOnClickListener {
 
             if(playerList.isNotEmpty() && playerList.size >2){
@@ -68,6 +74,10 @@ class SimpleMoneySimulation : AppCompatActivity() {
 
 
         }
+
+    }
+
+    fun continueMS(){
 
     }
 
