@@ -12,7 +12,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.gson.Gson
 import com.practice.moneysimuation.R
+import com.practice.moneysimuation.companionobject.SharedPrefVariable
 import com.practice.moneysimuation.model.Player
 import com.practice.moneysimuation.utils.ToastUtil
 
@@ -57,7 +59,12 @@ class SimpleMoneySimulation : AppCompatActivity() {
 
         btnStart.setOnClickListener {
 
-            startMSBoard()
+            if(playerList.isNotEmpty() && playerList.size >2){
+                startMSBoard()
+            }else{
+                ToastUtil.showShortToast(this,"Please Add Player")
+            }
+
 
         }
 
@@ -97,7 +104,12 @@ class SimpleMoneySimulation : AppCompatActivity() {
     }
 
     fun startMSBoard(){
+
+        val gson = Gson()
+        val json = gson.toJson(playerList)
+
         val intent = Intent(this, MSBoard::class.java)
+        intent.putExtra(SharedPrefVariable.player,json)
         startActivity(intent)
     }
 

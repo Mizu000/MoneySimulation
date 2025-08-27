@@ -19,6 +19,9 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+gson = { module = "com.google.code.gson:gson", version = "2.13.1" }
+retrofit2 = { module = "com.squareup.retrofit2:retrofit", version = "3.0.0" }
+retrofit2gson = { module = "com.squareup.retrofit2:converter-gson", version = "3.0.0" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
