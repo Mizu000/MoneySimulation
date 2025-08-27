@@ -48,6 +48,7 @@ class PlayersAdapter(val context: Context, val playerList: MutableList<Player>):
                 showBalance(holder,player)
             }else{
                 holder.tvBalance.text = "*****"
+                holder.tvView.text = "View Balance"
             }
 
         }
@@ -58,9 +59,11 @@ class PlayersAdapter(val context: Context, val playerList: MutableList<Player>):
     }
 
     fun showBalance(holder:PlayerViewHolder,player:Player){
-        val pin = holder.etEnterPin.text
+        val pin = holder.etEnterPin.text.trim()
         if(pin.isNotEmpty()){
             if(pin.toString().toInt() == player.upiPin){
+                holder.tvView.text = "Hide Balance"
+                holder.etEnterPin.text = ""
                 holder.tvBalance.text = player.balance.toString()
             }else{
                 ToastUtil.showShortToast(context,"Wrong Pin")
