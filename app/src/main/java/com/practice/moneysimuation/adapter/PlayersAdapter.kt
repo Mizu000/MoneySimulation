@@ -1,12 +1,17 @@
 package com.practice.moneysimuation.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import com.practice.moneysimuation.R
+import com.practice.moneysimuation.activity.SingleDeviceMS
+import com.practice.moneysimuation.companionobject.IntentVariable
 import com.practice.moneysimuation.model.Player
 import com.practice.moneysimuation.utils.ToastUtil
 
@@ -19,6 +24,7 @@ class PlayersAdapter(val context: Context, val playerList: MutableList<Player>):
         val tvName: TextView = itemView.findViewById(R.id.tvPlayerName)
         val tvBalance: TextView = itemView.findViewById(R.id.tvPlayerBalance)
         val tvView: TextView = itemView.findViewById(R.id.tvViewBalance)
+        val btnLogin: Button = itemView.findViewById(R.id.btnLogin)
         val etEnterPin: TextView = itemView.findViewById(R.id.etEnterPin)
     }
 
@@ -40,6 +46,15 @@ class PlayersAdapter(val context: Context, val playerList: MutableList<Player>):
         holder.tvName.text = player.name
         holder.tvBalance.text = "*****"
         holder.tvView.text = "View Balance"
+        //
+        holder.btnLogin.setOnClickListener {
+            val gson = Gson()
+            val json = gson.toJson(player)
+            val intent = Intent(context, SingleDeviceMS::class.java)
+            intent.putExtra(IntentVariable.playerIntent,json)
+            context.startActivity(intent)
+        }
+        //0
         holder.tvView.setOnClickListener {
 
             val balance = holder.tvBalance.text.toString()

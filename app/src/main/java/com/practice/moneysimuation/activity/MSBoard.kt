@@ -11,6 +11,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.practice.moneysimuation.R
 import com.practice.moneysimuation.adapter.PlayersAdapter
+import com.practice.moneysimuation.companionobject.IntentVariable
 import com.practice.moneysimuation.companionobject.SharedPrefVariable
 import com.practice.moneysimuation.model.Player
 
@@ -32,7 +33,7 @@ class MSBoard : AppCompatActivity() {
         rvPlayers = findViewById(R.id.rvPlayers)
 
         val gson = Gson()
-        val json = intent.getStringExtra(SharedPrefVariable.player)
+        val json = intent.getStringExtra(IntentVariable.playerListIntent)
         val type = object : TypeToken<MutableList<Player>>(){}.type
         playerList = gson.fromJson(json,type)
 

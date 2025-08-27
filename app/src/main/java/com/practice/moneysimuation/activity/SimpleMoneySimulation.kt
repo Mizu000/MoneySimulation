@@ -14,6 +14,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.gson.Gson
 import com.practice.moneysimuation.R
+import com.practice.moneysimuation.companionobject.IntentVariable
 import com.practice.moneysimuation.companionobject.SharedPrefVariable
 import com.practice.moneysimuation.model.Player
 import com.practice.moneysimuation.utils.ToastUtil
@@ -109,7 +110,7 @@ class SimpleMoneySimulation : AppCompatActivity() {
         val json = gson.toJson(playerList)
 
         val intent = Intent(this, MSBoard::class.java)
-        intent.putExtra(SharedPrefVariable.player,json)
+        intent.putExtra(IntentVariable.playerListIntent,json)
         startActivity(intent)
     }
 
