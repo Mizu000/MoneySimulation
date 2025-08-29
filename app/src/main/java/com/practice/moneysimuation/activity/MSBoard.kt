@@ -3,6 +3,7 @@ package com.practice.moneysimuation.activity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
@@ -25,6 +26,7 @@ class MSBoard : AppCompatActivity() {
     lateinit var playerList: MutableList<Player>
     lateinit var transactionList: MutableList<Transaction>
     lateinit var rvPlayers: RecyclerView
+    lateinit var btnEndGame: Button
     var continueMs = false
     lateinit var preferences: SharedPreferences
 
@@ -41,6 +43,7 @@ class MSBoard : AppCompatActivity() {
         preferences = getSharedPreferences(SharedPrefVariable.prefFile,MODE_PRIVATE)
 
         rvPlayers = findViewById(R.id.rvPlayers)
+        btnEndGame = findViewById(R.id.btnEndGame)
 
         playerList = mutableListOf()
         transactionList = mutableListOf()
@@ -72,6 +75,21 @@ class MSBoard : AppCompatActivity() {
 
         rvPlayers.layoutManager = LinearLayoutManager(this)
         rvPlayers.adapter = PlayersAdapter(this,playerList)
+
+        btnEndGame.setOnClickListener {
+            playerList.clear()
+            transactionList.clear()
+
+            val gson = Gson()
+            val jsonPl = gson.toJson(playerList)
+            val jsontr = gson.toJson(transactionList)
+            // Save playerList in SharedPreferences
+            preferences.edit {
+                putString(SharedPrefVariable.playerList, jsonPl)
+                putString(SharedPrefVariable.transaction, jsontr)
+            }
+            finishAffinity()
+        }
 
     }
 

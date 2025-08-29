@@ -127,14 +127,14 @@ class SingleDeviceMS : AppCompatActivity() {
         ///
         btnSend.setOnClickListener {
             val amount = etAmount.text.toString().trim()
-            if (amount.isNotEmpty()) {
+            if (amount.isNotEmpty() && amount.toInt() <= player.balance) {
                 //credit
                 transaction(amount.toInt(), 0, from, to)
 
                 //debit
                 transaction(0, amount.toInt(), from, to)
             } else {
-                ToastUtil.showShortToast(this,"Enter Amount")
+                ToastUtil.showShortToast(this,"Enter Amount or low balance")
             }
         }
 
