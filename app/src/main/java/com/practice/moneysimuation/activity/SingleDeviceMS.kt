@@ -15,9 +15,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.practice.moneysimuation.R
+import com.practice.moneysimuation.adapter.TranAdapter
 import com.practice.moneysimuation.companionobject.IntentVariable
 import com.practice.moneysimuation.companionobject.SharedPrefVariable
 import com.practice.moneysimuation.model.Player
@@ -29,6 +32,8 @@ class SingleDeviceMS : AppCompatActivity() {
     lateinit var tvBalance: TextView
     lateinit var tvFrom: TextView
     lateinit var etAmount: EditText
+    lateinit var rvTran: RecyclerView
+    lateinit var TranAdapter : TranAdapter
     lateinit var btnSend: Button
     lateinit var spnPlayers: Spinner
     lateinit var playerName: String
@@ -62,6 +67,7 @@ class SingleDeviceMS : AppCompatActivity() {
         etAmount = findViewById(R.id.etEnterAmount)
         btnSend = findViewById(R.id.btnSendMoney)
         spnPlayers = findViewById(R.id.spnToPlayer)
+        rvTran = findViewById(R.id.rvTran)
 
 
         //
@@ -95,6 +101,10 @@ class SingleDeviceMS : AppCompatActivity() {
         tvBalance.text = "$${player.balance}"
         tvFrom.text = from
 
+        rvTran.layoutManager = LinearLayoutManager(this)
+        TranAdapter = TranAdapter(this,transactionList)
+        rvTran.adapter = TranAdapter
+
         savePlayerState()
 
         //spinner player
@@ -118,7 +128,11 @@ class SingleDeviceMS : AppCompatActivity() {
         btnSend.setOnClickListener {
             val amount = etAmount.text.toString().trim()
             if (amount.isNotEmpty()) {
-                transaction(amount.toInt(), amount.toInt(), from, to)
+                //credit
+                transaction(amount.toInt(), 0, from, to)
+
+                //debit
+                transaction(0, amount.toInt(), from, to)
             } else {
                 ToastUtil.showShortToast(this,"Enter Amount")
             }
@@ -160,6 +174,7 @@ class SingleDeviceMS : AppCompatActivity() {
         }
 
         savePlayerState()
+        TranAdapter.notifyDataSetChanged()
     }
 
 

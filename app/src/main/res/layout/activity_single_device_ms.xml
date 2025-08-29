@@ -10,9 +10,11 @@
 
 
     <LinearLayout
+        android:id="@+id/ll_player_info"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_alignParentTop="true"
         >
         <TextView
             android:layout_width="match_parent"
@@ -80,5 +82,14 @@
             />
 
     </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvTran"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_player_info"
+        android:layout_alignParentBottom="true"
+        android:padding="20dp"
+        />
 
 </RelativeLayout>

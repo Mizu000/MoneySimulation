@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_margin="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/colorPrimary"
+            />
+
+        <TextView
+            android:id="@+id/tvTranNote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Note"
+            android:padding="10dp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:id="@+id/tvTranCredit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Credit"
+                android:layout_weight="1"
+                android:padding="10dp"
+                />
+
+            <TextView
+                android:id="@+id/tvTranDebit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Debit"
+                android:layout_weight="1"
+                android:padding="10dp"
+                />
+
+            <TextView
+                android:id="@+id/tvTranFrom"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="From"
+                android:layout_weight="1"
+                android:padding="10dp"
+                />
+
+            <TextView
+                android:id="@+id/tvTranTo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="To"
+                android:layout_weight="1"
+                android:padding="10dp"
+                />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/black"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>
