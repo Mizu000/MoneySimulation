@@ -31,6 +31,7 @@ class SingleDeviceMS : AppCompatActivity() {
     lateinit var etAmount: EditText
     lateinit var btnSend: Button
     lateinit var spnPlayers: Spinner
+    lateinit var playerName: String
     lateinit var player: Player
     lateinit var playerList: MutableList<Player>
     lateinit var transactionList: MutableList<Transaction>
@@ -65,24 +66,32 @@ class SingleDeviceMS : AppCompatActivity() {
 
         //
         val gson = Gson()
-        val json = intent.getStringExtra(IntentVariable.playerIntent)
-        val jsonPlayerList = intent.getStringExtra(IntentVariable.playerListIntent)
-        val jsonTranList = intent.getStringExtra(IntentVariable.transactionListIntent)
-        val typePlayer = object : TypeToken<MutableList<Player>>(){}.type
-        val typeTran = object : TypeToken<MutableList<Transaction>>(){}.type
-        player = gson.fromJson(json,Player::class.java)
-        playerList = gson.fromJson(jsonPlayerList,typePlayer)
-        transactionList = gson.fromJson(jsonTranList,typeTran)
+        playerName = intent.getStringExtra(IntentVariable.playerIntent).toString()
+//        player = gson.fromJson(json,Player::class.java)
+
+        val typePlayer = object : TypeToken<MutableList<Player>>() {}.type
+        val typeTran = object : TypeToken<MutableList<Transaction>>() {}.type
+
+// Get JSON strings from SharedPreferences
+        val jsonPlayerList = preferences.getString(SharedPrefVariable.playerList, null)
+        val jsonTranList = preferences.getString(SharedPrefVariable.transaction, null)
+
+// Deserialize safely (fallback to empty list if null)
+        playerList = gson.fromJson<MutableList<Player>>(jsonPlayerList, typePlayer) ?: mutableListOf()
+        transactionList = gson.fromJson<MutableList<Transaction>>(jsonTranList, typeTran) ?: mutableListOf()
+
 
         for(playerTemp in playerList){
-            if(playerTemp != player){
+            if(playerTemp.name != playerName){
                 playerNameList.add(playerTemp.name)
+            }else{
+                player = playerTemp
             }
 
         }
 
         //
-        from = player.name
+        from = playerName
         tvBalance.text = "$${player.balance}"
         tvFrom.text = from
 

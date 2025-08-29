@@ -62,8 +62,6 @@ class SimpleMoneySimulation : AppCompatActivity() {
         playerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spnPlayers.adapter = playerAdapter
 
-        getContinue()
-
 //        categoryList.addAll(list)
 //        categoryAdapter.notifyDataSetChanged()
 
@@ -74,7 +72,7 @@ class SimpleMoneySimulation : AppCompatActivity() {
 
         btnContinue.setOnClickListener {
 
-            startMSBoard()
+           getContinue()
         }
 
         btnStart.setOnClickListener {
@@ -92,6 +90,10 @@ class SimpleMoneySimulation : AppCompatActivity() {
 
     //
     fun getContinue() {
+
+        playerList.clear()
+        transactionList.clear()
+
         val gson = Gson()
         val jsonPlayerList = preferences.getString(SharedPrefVariable.playerList, null)
         val jsonTransactionList = preferences.getString(SharedPrefVariable.transaction, null)
@@ -101,11 +103,16 @@ class SimpleMoneySimulation : AppCompatActivity() {
             val typeTran = object : TypeToken<MutableList<Transaction>>() {}.type
             playerList = gson.fromJson(jsonPlayerList, typePlayer)
             transactionList = gson.fromJson(jsonTransactionList, typeTran)
+
+            val intent = Intent(this, MSBoard::class.java)
+            intent.putExtra(IntentVariable.continueMS,true)
+            startActivity(intent)
+
         } else {
-            btnContinue.visibility = View.GONE
             // nothing saved yet, maybe start fresh
             playerList = mutableListOf()
             transactionList = mutableListOf()
+            ToastUtil.showShortToast(this,"No Pending Game Available")
         }
     }
 
@@ -147,7 +154,7 @@ class SimpleMoneySimulation : AppCompatActivity() {
 
         val gson = Gson()
         val jsonPlayer = gson.toJson(playerList)
-        val jsonTrans = gson.toJson(transactionList)
+//        val jsonTrans = gson.toJson(transactionList)
 
 //        preferences.edit {
 //            putString(SharedPrefVariable.playerList, json)
@@ -156,7 +163,8 @@ class SimpleMoneySimulation : AppCompatActivity() {
 
         val intent = Intent(this, MSBoard::class.java)
         intent.putExtra(IntentVariable.playerListIntent,jsonPlayer)
-        intent.putExtra(IntentVariable.transactionListIntent,jsonTrans)
+//        intent.putExtra(IntentVariable.transactionListIntent,jsonTrans)
+        intent.putExtra(IntentVariable.continueMS,false)
         startActivity(intent)
     }
 

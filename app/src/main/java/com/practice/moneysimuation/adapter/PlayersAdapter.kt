@@ -10,22 +10,20 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.practice.moneysimuation.R
-import com.practice.moneysimuation.activity.MSBoard
 import com.practice.moneysimuation.activity.SingleDeviceMS
 import com.practice.moneysimuation.companionobject.IntentVariable
 import com.practice.moneysimuation.model.Player
-import com.practice.moneysimuation.model.Transaction
 import com.practice.moneysimuation.utils.ToastUtil
 
-class PlayersAdapter(val context: Context, val playerList: MutableList<Player>,val transactionList: MutableList<Transaction>):
+class PlayersAdapter(val context: Context, val playerList: MutableList<Player>):
     RecyclerView.Adapter<PlayersAdapter.PlayerViewHolder>(){
 
 
     class PlayerViewHolder(itemView:View): RecyclerView.ViewHolder(itemView){
 
         val tvName: TextView = itemView.findViewById(R.id.tvPlayerName)
-        val tvBalance: TextView = itemView.findViewById(R.id.tvPlayerBalance)
-        val tvView: TextView = itemView.findViewById(R.id.tvViewBalance)
+//        val tvBalance: TextView = itemView.findViewById(R.id.tvPlayerBalance)
+//        val tvView: TextView = itemView.findViewById(R.id.tvViewBalance)
         val btnLogin: Button = itemView.findViewById(R.id.btnLogin)
         val etEnterPin: TextView = itemView.findViewById(R.id.etEnterPin)
     }
@@ -46,8 +44,8 @@ class PlayersAdapter(val context: Context, val playerList: MutableList<Player>,v
     ) {
         val player = playerList[position]
         holder.tvName.text = player.name
-        holder.tvBalance.text = "*****"
-        holder.tvView.text = "View Balance"
+//        holder.tvBalance.text = "*****"
+//        holder.tvView.text = "View Balance"
         //
         holder.btnLogin.setOnClickListener {
 
@@ -59,12 +57,12 @@ class PlayersAdapter(val context: Context, val playerList: MutableList<Player>,v
 
                     val gson = Gson()
                     val json = gson.toJson(player)
-                    val jsonPlayerList = gson.toJson(playerList)
-                    val jsonTranList = gson.toJson(transactionList)
+//                    val jsonPlayerList = gson.toJson(playerList)
+//                    val jsonTranList = gson.toJson(transactionList)
                     val intent = Intent(context, SingleDeviceMS::class.java)
-                    intent.putExtra(IntentVariable.playerIntent,json)
-                    intent.putExtra(IntentVariable.playerListIntent,jsonPlayerList)
-                    intent.putExtra(IntentVariable.transactionListIntent,jsonTranList)
+                    intent.putExtra(IntentVariable.playerIntent,player.name)
+//                    intent.putExtra(IntentVariable.playerListIntent,jsonPlayerList)
+//                    intent.putExtra(IntentVariable.transactionListIntent,jsonTranList)
                     context.startActivity(intent)
 
                 }else{
@@ -77,38 +75,38 @@ class PlayersAdapter(val context: Context, val playerList: MutableList<Player>,v
 
         }
         //0
-        holder.tvView.setOnClickListener {
-
-            val balance = holder.tvBalance.text.toString()
-            if(balance == "*****"){
-
-                showBalance(holder,player)
-            }else{
-                holder.tvBalance.text = "*****"
-                holder.tvView.text = "View Balance"
-            }
-
-        }
+//        holder.tvView.setOnClickListener {
+//
+//            val balance = holder.tvBalance.text.toString()
+//            if(balance == "*****"){
+//
+//                showBalance(holder,player)
+//            }else{
+//                holder.tvBalance.text = "*****"
+//                holder.tvView.text = "View Balance"
+//            }
+//
+//        }
     }
 
     override fun getItemCount(): Int {
         return playerList.size
     }
 
-    fun showBalance(holder:PlayerViewHolder,player:Player){
-        val pin = holder.etEnterPin.text.trim()
-        if(pin.isNotEmpty()){
-            if(pin.toString().toInt() == player.upiPin){
-                holder.tvView.text = "Hide Balance"
-                holder.etEnterPin.text = ""
-                holder.tvBalance.text = player.balance.toString()
-            }else{
-                ToastUtil.showShortToast(context,"Wrong Pin")
-            }
-        }else{
-            ToastUtil.showShortToast(context,"Enter Pin")
-        }
-    }
+//    fun showBalance(holder:PlayerViewHolder,player:Player){
+//        val pin = holder.etEnterPin.text.trim()
+//        if(pin.isNotEmpty()){
+//            if(pin.toString().toInt() == player.upiPin){
+//                holder.tvView.text = "Hide Balance"
+//                holder.etEnterPin.text = ""
+//                holder.tvBalance.text = player.balance.toString()
+//            }else{
+//                ToastUtil.showShortToast(context,"Wrong Pin")
+//            }
+//        }else{
+//            ToastUtil.showShortToast(context,"Enter Pin")
+//        }
+//    }
 
 
 }
