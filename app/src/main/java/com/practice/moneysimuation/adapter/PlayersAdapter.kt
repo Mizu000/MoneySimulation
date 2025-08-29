@@ -54,9 +54,10 @@ class PlayersAdapter(val context: Context, val playerList: MutableList<Player>):
                 if(pin.toString().toInt() == player.upiPin){
 
 
+                    holder.etEnterPin.text = ""
 
-                    val gson = Gson()
-                    val json = gson.toJson(player)
+//                    val gson = Gson()
+//                    val json = gson.toJson(player)
 //                    val jsonPlayerList = gson.toJson(playerList)
 //                    val jsonTranList = gson.toJson(transactionList)
                     val intent = Intent(context, SingleDeviceMS::class.java)

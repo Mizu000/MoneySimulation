@@ -11,6 +11,7 @@ import android.widget.ImageButton
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import androidx.core.view.ViewCompat
@@ -128,11 +129,16 @@ class SingleDeviceMS : AppCompatActivity() {
         btnSend.setOnClickListener {
             val amount = etAmount.text.toString().trim()
             if (amount.isNotEmpty() && amount.toInt() <= player.balance) {
+
+                etAmount.text.clear()
                 //credit
                 transaction(amount.toInt(), 0, from, to)
 
                 //debit
                 transaction(0, amount.toInt(), from, to)
+
+                showSuccessDialog("Success", "Transaction Successful")
+
             } else {
                 ToastUtil.showShortToast(this,"Enter Amount or low balance")
             }
@@ -140,6 +146,26 @@ class SingleDeviceMS : AppCompatActivity() {
 
 
 
+    }
+
+    fun showSuccessDialog(title: String, message: String) {
+        val builder = AlertDialog.Builder(this)
+
+        // Set title and message
+        builder.setTitle(title)
+        builder.setMessage(message)
+
+        // Set icon (you can use a drawable resource for success)
+        builder.setIcon(R.drawable.ic_success) // make sure you have ic_success.png in drawable
+
+        // Add OK button
+        builder.setPositiveButton("OK") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        // Create and show dialog
+        val dialog = builder.create()
+        dialog.show()
     }
 
     fun transaction(
