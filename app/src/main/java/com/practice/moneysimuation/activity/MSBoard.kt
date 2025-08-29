@@ -14,10 +14,12 @@ import com.practice.moneysimuation.adapter.PlayersAdapter
 import com.practice.moneysimuation.companionobject.IntentVariable
 import com.practice.moneysimuation.companionobject.SharedPrefVariable
 import com.practice.moneysimuation.model.Player
+import com.practice.moneysimuation.model.Transaction
 
 class MSBoard : AppCompatActivity() {
 
     lateinit var playerList: MutableList<Player>
+    lateinit var transactionList: MutableList<Transaction>
     lateinit var rvPlayers: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,13 +34,17 @@ class MSBoard : AppCompatActivity() {
 
         rvPlayers = findViewById(R.id.rvPlayers)
 
+
         val gson = Gson()
         val json = intent.getStringExtra(IntentVariable.playerListIntent)
-        val type = object : TypeToken<MutableList<Player>>(){}.type
-        playerList = gson.fromJson(json,type)
+        val jsonTran = intent.getStringExtra(IntentVariable.playerListIntent)
+        val typePlayer = object : TypeToken<MutableList<Player>>(){}.type
+        val typeTrans = object : TypeToken<MutableList<Transaction>>(){}.type
+        playerList = gson.fromJson(json,typePlayer)
+        transactionList = gson.fromJson(jsonTran,typeTrans)
 
         rvPlayers.layoutManager = LinearLayoutManager(this)
-        rvPlayers.adapter = PlayersAdapter(this,playerList)
+        rvPlayers.adapter = PlayersAdapter(this,playerList,transactionList)
 
     }
 }

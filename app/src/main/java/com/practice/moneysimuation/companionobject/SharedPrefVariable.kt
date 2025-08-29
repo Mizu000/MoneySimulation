@@ -5,6 +5,8 @@ object SharedPrefVariable {
 
     var player = "PlayerPref"
     var playerList = "PlayerListPref"
+    var transaction = "transaction"
+    var prefFile = "PreferenceFile"
 
 
 }

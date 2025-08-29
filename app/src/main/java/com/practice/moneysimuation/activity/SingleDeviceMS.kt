@@ -1,6 +1,9 @@
 package com.practice.moneysimuation.activity
 
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
@@ -9,13 +12,17 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.edit
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.practice.moneysimuation.R
 import com.practice.moneysimuation.companionobject.IntentVariable
+import com.practice.moneysimuation.companionobject.SharedPrefVariable
 import com.practice.moneysimuation.model.Player
+import com.practice.moneysimuation.model.Transaction
+import com.practice.moneysimuation.utils.ToastUtil
 
 class SingleDeviceMS : AppCompatActivity() {
 
@@ -26,8 +33,12 @@ class SingleDeviceMS : AppCompatActivity() {
     lateinit var spnPlayers: Spinner
     lateinit var player: Player
     lateinit var playerList: MutableList<Player>
+    lateinit var transactionList: MutableList<Transaction>
     lateinit var playerNameList: MutableList<String>
     lateinit var playerAdapter: ArrayAdapter<String>
+    lateinit var preferences: SharedPreferences
+    lateinit var to: String
+    lateinit var from: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +50,9 @@ class SingleDeviceMS : AppCompatActivity() {
             insets
         }
 
+        preferences = getSharedPreferences(SharedPrefVariable.prefFile,MODE_PRIVATE)
+
+        transactionList = mutableListOf()
         playerList = mutableListOf()
         playerNameList = mutableListOf()
 
@@ -48,30 +62,105 @@ class SingleDeviceMS : AppCompatActivity() {
         btnSend = findViewById(R.id.btnSendMoney)
         spnPlayers = findViewById(R.id.spnToPlayer)
 
-        val jsonPlayerList = intent.getStringExtra(IntentVariable.playerListIntent)
-        val type = object : TypeToken<MutableList<Player>>(){}.type
+
         //
         val gson = Gson()
         val json = intent.getStringExtra(IntentVariable.playerIntent)
+        val jsonPlayerList = intent.getStringExtra(IntentVariable.playerListIntent)
+        val jsonTranList = intent.getStringExtra(IntentVariable.transactionListIntent)
+        val typePlayer = object : TypeToken<MutableList<Player>>(){}.type
+        val typeTran = object : TypeToken<MutableList<Transaction>>(){}.type
         player = gson.fromJson(json,Player::class.java)
-        playerList = gson.fromJson(jsonPlayerList,type)
+        playerList = gson.fromJson(jsonPlayerList,typePlayer)
+        transactionList = gson.fromJson(jsonTranList,typeTran)
 
         for(playerTemp in playerList){
             if(playerTemp != player){
-                playerNameList.add(player.name)
+                playerNameList.add(playerTemp.name)
             }
 
         }
 
         //
+        from = player.name
         tvBalance.text = "$${player.balance}"
-        tvFrom.text = player.name.toString()
+        tvFrom.text = from
+
+        savePlayerState()
 
         //spinner player
         playerAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, playerNameList)
         playerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spnPlayers.adapter = playerAdapter
 
+        spnPlayers.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>, view: View?, position: Int, id: Long
+            ) {
+                to = playerNameList[position]   // ✅ get the selected name
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                to = playerNameList[0]
+            }
+        }
+
+        ///
+        btnSend.setOnClickListener {
+            val amount = etAmount.text.toString().trim()
+            if (amount.isNotEmpty()) {
+                transaction(amount.toInt(), amount.toInt(), from, to)
+            } else {
+                ToastUtil.showShortToast(this,"Enter Amount")
+            }
+        }
+
+
 
     }
+
+    fun transaction(
+        credit: Int,
+        debit: Int,
+        from: String,
+        to: String
+    ) {
+        // Update balances
+        val sender = playerList.find { it.name == from }
+        val receiver = playerList.find { it.name == to }
+
+        sender?.balance = (sender?.balance ?: 0) - debit
+        receiver?.balance = (receiver?.balance ?: 0) + credit
+
+        // Update UI (use sender’s balance if current player is sender)
+        if (player.name == from) {
+            tvBalance.text = "$${sender?.balance}"
+        } else if (player.name == to) {
+            tvBalance.text = "$${receiver?.balance}"
+        }
+
+        // Save transaction (one record is enough)
+        val transaction = Transaction("", credit, debit, from, to)
+        transactionList.add(transaction)
+
+        val gson = Gson()
+        val json = gson.toJson(transactionList)
+
+        preferences.edit {
+            putString(SharedPrefVariable.transaction, json)
+        }
+
+        savePlayerState()
+    }
+
+
+    fun savePlayerState(){
+        val gson = Gson()
+        val json = gson.toJson(playerList)
+
+        preferences.edit {
+            putString(SharedPrefVariable.playerList, json)
+        }   // or editor.commit()
+    }
+
 }

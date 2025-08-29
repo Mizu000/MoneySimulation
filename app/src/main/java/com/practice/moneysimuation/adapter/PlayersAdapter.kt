@@ -14,9 +14,10 @@ import com.practice.moneysimuation.activity.MSBoard
 import com.practice.moneysimuation.activity.SingleDeviceMS
 import com.practice.moneysimuation.companionobject.IntentVariable
 import com.practice.moneysimuation.model.Player
+import com.practice.moneysimuation.model.Transaction
 import com.practice.moneysimuation.utils.ToastUtil
 
-class PlayersAdapter(val context: Context, val playerList: MutableList<Player>):
+class PlayersAdapter(val context: Context, val playerList: MutableList<Player>,val transactionList: MutableList<Transaction>):
     RecyclerView.Adapter<PlayersAdapter.PlayerViewHolder>(){
 
 
@@ -56,13 +57,14 @@ class PlayersAdapter(val context: Context, val playerList: MutableList<Player>):
 
 
 
-
                     val gson = Gson()
                     val json = gson.toJson(player)
                     val jsonPlayerList = gson.toJson(playerList)
+                    val jsonTranList = gson.toJson(transactionList)
                     val intent = Intent(context, SingleDeviceMS::class.java)
                     intent.putExtra(IntentVariable.playerIntent,json)
                     intent.putExtra(IntentVariable.playerListIntent,jsonPlayerList)
+                    intent.putExtra(IntentVariable.transactionListIntent,jsonTranList)
                     context.startActivity(intent)
 
                 }else{

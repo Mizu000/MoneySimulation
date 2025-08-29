@@ -4,5 +4,6 @@ object IntentVariable {
 
     var playerIntent = "playerIntent"
     var playerListIntent = "playerListIntent"
+    var transactionListIntent = "transactionListIntent"
 
 }
